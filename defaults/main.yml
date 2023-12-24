@@ -1,1 +1,10 @@
 ---
+add_docker_swarm_is_manager: false
+
+add_docker_swarm_swarmname: "SWARM"
+add_docker_swarm_ssl: false
+#add_docker_swarm_ssl_verify_cert: "no"
+#add_docker_swarm_tls_name: "{{ inventory_hostname }}"
+#add_docker_swarm_ca:  "/path/to/your/ca.pem.crt"
+#add_docker_swarm_key: "/path/to/your/key.pem.crt"
+#add_docker_swarm_cert: "/path/to/your/cert.pem.crt"

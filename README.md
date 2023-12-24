@@ -18,6 +18,8 @@
 
 An Ansible role to configure a Docker SWARM on your hosts.
 
+Simplify the orchestration of your Docker Swarm cluster using this Ansible role. Automated processes initiate the cluster on a manager node, generate tokens for gradual expansion with managers and workers, and streamline SSL/mTLS encryption configuration. Whether your aim is rapid deployment or customized security settings, this Ansible role eases the process with straightforward variable specifications.
+
 ## Folder structure
 
 By default Ansible will look in each directory within a role for a main.yml file for relevant content (also man.yml and main):
@@ -101,7 +103,16 @@ Some vars a required to run this role:
 
 ```YAML
 ---
-your defaults vars here
+add_docker_swarm_is_manager: false
+
+add_docker_swarm_swarmname: "SWARM"
+add_docker_swarm_ssl: false
+#add_docker_swarm_ssl_verify_cert: "no"
+#add_docker_swarm_tls_name: "{{ inventory_hostname }}"
+#add_docker_swarm_ca:  "/path/to/your/ca.pem.crt"
+#add_docker_swarm_key: "/path/to/your/key.pem.crt"
+#add_docker_swarm_cert: "/path/to/your/cert.pem.crt"
+
 ```
 
 The best way is to modify these vars by copy the ./default/main.yml file into the ./vars and edit with your personnals requirements.
@@ -113,13 +124,21 @@ In order to surchage vars, you have multiples possibilities but for mains cases 
 ```YAML
 # From inventory
 ---
-all vars from to put/from your inventory
+#inv_add_docker_swarm_is_manager: false
+
+inv_docker_swarm_swarmname: "MY-DOCKER-SWARM"
+inv_docker_swarm_ssl: true
+inv_docker_swarm_ssl_verify_cert: "no"
+inv_docker_swarm_tls_name: "{{ inventory_hostname }}"
+inv_docker_swarm_ca:  "/path/to/your/ca.pem.crt"
+inv_docker_swarm_key: "/path/to/your/key.pem.crt"
+inv_docker_swarm_cert: "/path/to/your/cert.pem.crt"
 ```
 
 ```YAML
 # From AWX / Tower
 ---
-all vars from to put/from AWX / Tower
+
 ```
 
 ### Run
@@ -127,9 +146,22 @@ all vars from to put/from AWX / Tower
 To run this role, you can copy the molecule/default/converge.yml playbook and add it into your playbook:
 
 ```YAML
----
-your converge.yml file here
+- name: "Include labocbz.add_docker_swarm"
+  tags:
+    - "labocbz.add_docker_swarm"
+  vars:
+    add_docker_swarm_is_manager: "{{ inv_add_docker_swarm_is_manager }}"
+    add_docker_swarm_swarmname: "{{ inv_add_docker_swarm_swarmname }}"
+    add_docker_swarm_ssl: "{{ inv_add_docker_swarm_ssl }}"
+    add_docker_swarm_ssl_verify_cert: "{{ inv_add_docker_swarm_ssl_verify_cert }}"
+    add_docker_swarm_tls_name: "{{ inv_add_docker_swarm_tls_name }}"
+    add_docker_swarm_ca: "{{ inv_add_docker_swarm_ca }}"
+    add_docker_swarm_key: "{{ inv_add_docker_swarm_key }}"
+    add_docker_swarm_cert: "{{ inv_add_docker_swarm_cert }}"
+  ansible.builtin.include_role:
+    name: "labocbz.add_docker_swarm"
 ```
+
 
 ## Architectural Decisions Records
 

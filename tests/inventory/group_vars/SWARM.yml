@@ -1,0 +1,10 @@
+---
+#inv_add_docker_swarm_is_manager: false
+
+inv_docker_swarm_swarmname: "MY-DOCKER-SWARM"
+inv_docker_swarm_ssl: true
+inv_docker_swarm_ssl_verify_cert: "no"
+inv_docker_swarm_tls_name: "{{ inventory_hostname }}"
+inv_docker_swarm_ca:  "/etc/docker/swarm/ssl/ca-chain.pem.crt"
+inv_docker_swarm_key: "/etc/docker/swarm/ssl/my-docker-swarm-cluster.domain.tld.pem.key"
+inv_docker_swarm_cert: "/etc/docker/swarm/ssl/my-docker-swarm-cluster.domain.tld.pem.crt"

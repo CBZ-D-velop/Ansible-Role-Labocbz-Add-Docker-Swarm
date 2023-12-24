@@ -15,10 +15,11 @@
 ![Tag: SSL/TLS](https://img.shields.io/badge/Tech-SSL%2FTLS-orange)
 ![Tag: Docker](https://img.shields.io/badge/Tech-Docker-orange)
 ![Tag: Swarm](https://img.shields.io/badge/Tech-Swarm-orange)
+![Tag: Portainer](https://img.shields.io/badge/Tech-Portainer-orange)
 
 An Ansible role to configure a Docker SWARM on your hosts.
 
-Simplify the orchestration of your Docker Swarm cluster using this Ansible role. Automated processes initiate the cluster on a manager node, generate tokens for gradual expansion with managers and workers, and streamline SSL/mTLS encryption configuration. Whether your aim is rapid deployment or customized security settings, this Ansible role eases the process with straightforward variable specifications.
+Enhance your Docker Swarm orchestration with this Ansible role, designed to simplify the entire process. Automated procedures initiate the cluster on a manager node, generate tokens for gradual expansion with managers and workers, and streamline SSL/mTLS encryption configuration. Plus, we've seamlessly integrated a Portainer stack, offering a powerful web-based interface for convenient cluster management. Whether your focus is on rapid deployment or customized security settings, this Ansible role makes it easy with straightforward variable specifications.
 
 ## Folder structure
 
@@ -109,9 +110,13 @@ add_docker_swarm_swarmname: "SWARM"
 add_docker_swarm_ssl: false
 #add_docker_swarm_ssl_verify_cert: "no"
 #add_docker_swarm_tls_name: "{{ inventory_hostname }}"
-#add_docker_swarm_ca:  "/path/to/your/ca.pem.crt"
-#add_docker_swarm_key: "/path/to/your/key.pem.crt"
-#add_docker_swarm_cert: "/path/to/your/cert.pem.crt"
+#add_docker_swarm_ssl_path: "/path/to/your"
+#add_docker_swarm_ca: "{{ add_docker_swarm_ssl_path }}/ca.pem.crt"
+#add_docker_swarm_key: ""{{ add_docker_swarm_ssl_path }}/key.pem.crt"
+#add_docker_swarm_cert: "{{ add_docker_swarm_ssl_path }}/cert.pem.crt"
+add_docker_swarm_portainer_volume_name: "portainer_data"
+#add_docker_swarm_portainer_https_port: 9443
+add_docker_swarm_portainer_http_port: 8000
 
 ```
 
@@ -134,6 +139,9 @@ inv_add_docker_swarm_tls_name: "{{ inventory_hostname }}"
 inv_add_docker_swarm_ca: "{{ inv_add_docker_swarm_ssl_path }}/ca-chain.pem.crt"
 inv_add_docker_swarm_key: "{{ inv_add_docker_swarm_ssl_path }}/my-docker-swarm-cluster.domain.tld.pem.key"
 inv_add_docker_swarm_cert: "{{ inv_add_docker_swarm_ssl_path }}/my-docker-swarm-cluster.domain.tld.pem.crt"
+inv_add_docker_swarm_portainer_volume_name: "portainer_data"
+inv_add_docker_swarm_portainer_https_port: 9443
+inv_add_docker_swarm_portainer_http_port: 8000
 
 ```
 
@@ -161,6 +169,9 @@ To run this role, you can copy the molecule/default/converge.yml playbook and ad
     add_docker_swarm_ca: "{{ inv_add_docker_swarm_ca }}"
     add_docker_swarm_key: "{{ inv_add_docker_swarm_key }}"
     add_docker_swarm_cert: "{{ inv_add_docker_swarm_cert }}"
+    add_docker_swarm_portainer_volume_name: "{{ inv_add_docker_swarm_portainer_volume_name }}"
+    add_docker_swarm_portainer_https_port: "{{ inv_add_docker_swarm_portainer_https_port }}"
+    add_docker_swarm_portainer_http_port: "{{ inv_add_docker_swarm_portainer_http_port }}"
   ansible.builtin.include_role:
     name: "labocbz.add_docker_swarm"
 ```

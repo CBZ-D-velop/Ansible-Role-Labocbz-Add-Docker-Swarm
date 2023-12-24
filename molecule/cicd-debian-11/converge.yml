@@ -22,5 +22,8 @@
         add_docker_swarm_ca: "{{ inv_add_docker_swarm_ca }}"
         add_docker_swarm_key: "{{ inv_add_docker_swarm_key }}"
         add_docker_swarm_cert: "{{ inv_add_docker_swarm_cert }}"
+        add_docker_swarm_portainer_volume_name: "{{ inv_add_docker_swarm_portainer_volume_name }}"
+        add_docker_swarm_portainer_https_port: "{{ inv_add_docker_swarm_portainer_https_port }}"
+        add_docker_swarm_portainer_http_port: "{{ inv_add_docker_swarm_portainer_http_port }}"
       ansible.builtin.include_role:
         name: "labocbz.add_docker_swarm"

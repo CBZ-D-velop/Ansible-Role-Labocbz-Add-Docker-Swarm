@@ -131,5 +131,28 @@
             ca_cert: "{{ add_docker_swarm_ca }}"
             join_token: "{{ swarm_join_token_worker }}"
 
-- name: ""
+- name: "Deploy Portainer Swarm stack"
   block:
+    - name: "Create /etc/docker/swarm directory"
+      register: output
+      changed_when: output.size < 0
+      ansible.builtin.file:
+        path: "/etc/docker/swarm"
+        state: directory
+        recurse: yes
+        owner: "root"
+        group: "root"
+        mode: "0700"
+    - name: "Import portainer.yml stack file"
+      ansible.builtin.template:
+        src: "templates/portainer-stack.yml.j2"
+        dest: "/etc/docker/swarm/portainer-stack.yml"
+        owner: "root"
+        group: "root"
+        mode: "0700"
+
+    - name: "Deploy Portainer stack"
+      register: ouput
+      changed_when: output.rc != 0
+      ansible.builtin.command: >
+        docker stack deploy -c /etc/docker/swarm/portainer-stack.yml portainer

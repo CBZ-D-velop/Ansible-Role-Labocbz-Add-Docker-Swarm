@@ -21,8 +21,8 @@ services:
     image: portainer/portainer-ce:latest
     command: -H tcp://tasks.agent:9001 --tlsskipverify
     ports:
-      - "9443:9443"
-      - "9000:9000"
+      - "{{ add_docker_swarm_portainer_https_port }}:9443"
+      - "{{ add_docker_swarm_portainer_http_port }}:9000"
       - "8000:8000"
     volumes:
       - "{{ add_docker_swarm_portainer_volume_name }}:/data"

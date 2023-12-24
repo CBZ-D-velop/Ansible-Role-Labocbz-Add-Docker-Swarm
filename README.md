@@ -126,13 +126,15 @@ In order to surchage vars, you have multiples possibilities but for mains cases 
 ---
 #inv_add_docker_swarm_is_manager: false
 
-inv_docker_swarm_swarmname: "MY-DOCKER-SWARM"
-inv_docker_swarm_ssl: true
-inv_docker_swarm_ssl_verify_cert: "no"
-inv_docker_swarm_tls_name: "{{ inventory_hostname }}"
-inv_docker_swarm_ca:  "/path/to/your/ca.pem.crt"
-inv_docker_swarm_key: "/path/to/your/key.pem.crt"
-inv_docker_swarm_cert: "/path/to/your/cert.pem.crt"
+inv_add_docker_swarm_swarmname: "MY-DOCKER-SWARM"
+inv_add_docker_swarm_ssl: true
+inv_add_docker_swarm_ssl_verify_cert: "no"
+inv_add_docker_swarm_ssl_path: "/etc/docker/swarm/ssl"
+inv_add_docker_swarm_tls_name: "{{ inventory_hostname }}"
+inv_add_docker_swarm_ca: "{{ inv_add_docker_swarm_ssl_path }}/ca-chain.pem.crt"
+inv_add_docker_swarm_key: "{{ inv_add_docker_swarm_ssl_path }}/my-docker-swarm-cluster.domain.tld.pem.key"
+inv_add_docker_swarm_cert: "{{ inv_add_docker_swarm_ssl_path }}/my-docker-swarm-cluster.domain.tld.pem.crt"
+
 ```
 
 ```YAML
@@ -154,6 +156,7 @@ To run this role, you can copy the molecule/default/converge.yml playbook and ad
     add_docker_swarm_swarmname: "{{ inv_add_docker_swarm_swarmname }}"
     add_docker_swarm_ssl: "{{ inv_add_docker_swarm_ssl }}"
     add_docker_swarm_ssl_verify_cert: "{{ inv_add_docker_swarm_ssl_verify_cert }}"
+    add_docker_swarm_ssl_path: "{{ inv_add_docker_swarm_ssl_path }}"
     add_docker_swarm_tls_name: "{{ inv_add_docker_swarm_tls_name }}"
     add_docker_swarm_ca: "{{ inv_add_docker_swarm_ca }}"
     add_docker_swarm_key: "{{ inv_add_docker_swarm_key }}"

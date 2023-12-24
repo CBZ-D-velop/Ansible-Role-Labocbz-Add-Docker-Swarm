@@ -17,6 +17,7 @@
         add_docker_swarm_swarmname: "{{ inv_add_docker_swarm_swarmname }}"
         add_docker_swarm_ssl: "{{ inv_add_docker_swarm_ssl }}"
         add_docker_swarm_ssl_verify_cert: "{{ inv_add_docker_swarm_ssl_verify_cert }}"
+        add_docker_swarm_ssl_path: "{{ inv_add_docker_swarm_ssl_path }}"
         add_docker_swarm_tls_name: "{{ inv_add_docker_swarm_tls_name }}"
         add_docker_swarm_ca: "{{ inv_add_docker_swarm_ca }}"
         add_docker_swarm_key: "{{ inv_add_docker_swarm_key }}"

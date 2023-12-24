@@ -171,6 +171,13 @@ Here you can put your change to keep a trace of your work and decisions.
 
 * First init of this role with the bootstrap_role playbook by Lord Robin Crombez
 
+### 2023-12-24-b: Docker Swarm pre install
+
+* Role deploy a Docker Swarm, but not tested in local (Docker in Docker in Docker ...)
+* Need test in Labo-CBZ
+* Role handle SSL / mTLS
+* Role handle custom name
+
 ## Authors
 
 * Lord Robin Crombez

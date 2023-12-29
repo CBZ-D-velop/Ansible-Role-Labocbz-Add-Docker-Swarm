@@ -10,6 +10,11 @@
       - "gnupg"
       - "lsb-release"
 
+- name: "Install Docker PIP module"
+  ansible.builtin.pip:
+    name:
+      - "docker"
+
 - name: "Deploy Docker Swarm"
   block:
     - name: "Set first node manager"

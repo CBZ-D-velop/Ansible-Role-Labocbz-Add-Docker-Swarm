@@ -189,6 +189,11 @@ Here you can put your change to keep a trace of your work and decisions.
 * Role handle SSL / mTLS
 * Role handle custom name
 
+### 2023-12-29: Tests and fixes
+
+* Role doesn't handle Swarm name
+* Tested in develop and validation env
+
 ## Authors
 
 * Lord Robin Crombez

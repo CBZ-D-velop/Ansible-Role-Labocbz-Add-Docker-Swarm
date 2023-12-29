@@ -1,1 +1,13 @@
 ---
+add_docker_swarm_is_manager: false
+
+add_docker_swarm_ssl: false
+#add_docker_swarm_ssl_verify_cert: "no"
+#add_docker_swarm_tls_name: "{{ inventory_hostname }}"
+#add_docker_swarm_ssl_path: "/path/to/your"
+#add_docker_swarm_ca: "{{ add_docker_swarm_ssl_path }}/ca.pem.crt"
+#add_docker_swarm_key: ""{{ add_docker_swarm_ssl_path }}/key.pem.crt"
+#add_docker_swarm_cert: "{{ add_docker_swarm_ssl_path }}/cert.pem.crt"
+add_docker_swarm_portainer_volume_name: "portainer_data"
+#add_docker_swarm_portainer_https_port: 9443
+add_docker_swarm_portainer_http_port: 8000

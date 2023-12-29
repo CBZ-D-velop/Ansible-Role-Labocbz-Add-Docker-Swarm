@@ -16,7 +16,7 @@ inv_cert_bundles:
   - name: "my-docker-swarm-cluster.domain.tld"
     type: "cert"
     src: "/tmp/my-docker-swarm-cluster.domain.tld.zip"
-    dest: "/etc/docker/ssl"
+    dest: "/etc/docker/swarm/ssl"
     #src_user: "myUser"
     #src_password: "secretPassword"
     dest_user: "root"

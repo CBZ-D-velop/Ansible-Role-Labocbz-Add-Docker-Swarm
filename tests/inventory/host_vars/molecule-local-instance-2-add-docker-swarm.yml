@@ -1,0 +1,4 @@
+---
+ansible_ssh_port: 22
+
+inv_add_docker_swarm_is_manager: false

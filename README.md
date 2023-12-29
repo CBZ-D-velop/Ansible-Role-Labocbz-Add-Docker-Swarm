@@ -15,8 +15,11 @@
 ![Tag: SSL/TLS](https://img.shields.io/badge/Tech-SSL%2FTLS-orange)
 ![Tag: Docker](https://img.shields.io/badge/Tech-Docker-orange)
 ![Tag: Swarm](https://img.shields.io/badge/Tech-Swarm-orange)
+![Tag: Portainer](https://img.shields.io/badge/Tech-Portainer-orange)
 
 An Ansible role to configure a Docker SWARM on your hosts.
+
+Enhance your Docker Swarm orchestration with this Ansible role, designed to simplify the entire process. Automated procedures initiate the cluster on a manager node, generate tokens for gradual expansion with managers and workers, and streamline SSL/mTLS encryption configuration. Plus, we've seamlessly integrated a Portainer stack, offering a powerful web-based interface for convenient cluster management. Whether your focus is on rapid deployment or customized security settings, this Ansible role makes it easy with straightforward variable specifications.
 
 ## Folder structure
 
@@ -101,7 +104,19 @@ Some vars a required to run this role:
 
 ```YAML
 ---
-your defaults vars here
+add_docker_swarm_is_manager: false
+
+add_docker_swarm_ssl: false
+#add_docker_swarm_ssl_verify_cert: "no"
+#add_docker_swarm_tls_name: "{{ inventory_hostname }}"
+#add_docker_swarm_ssl_path: "/path/to/your"
+#add_docker_swarm_ca: "{{ add_docker_swarm_ssl_path }}/ca.pem.crt"
+#add_docker_swarm_key: ""{{ add_docker_swarm_ssl_path }}/key.pem.crt"
+#add_docker_swarm_cert: "{{ add_docker_swarm_ssl_path }}/cert.pem.crt"
+add_docker_swarm_portainer_volume_name: "portainer_data"
+#add_docker_swarm_portainer_https_port: 9443
+add_docker_swarm_portainer_http_port: 8000
+
 ```
 
 The best way is to modify these vars by copy the ./default/main.yml file into the ./vars and edit with your personnals requirements.
@@ -113,13 +128,25 @@ In order to surchage vars, you have multiples possibilities but for mains cases 
 ```YAML
 # From inventory
 ---
-all vars from to put/from your inventory
+#inv_add_docker_swarm_is_manager: false
+
+inv_add_docker_swarm_ssl: true
+inv_add_docker_swarm_ssl_verify_cert: "no"
+inv_add_docker_swarm_ssl_path: "/etc/docker/swarm/ssl"
+inv_add_docker_swarm_tls_name: "{{ inventory_hostname }}"
+inv_add_docker_swarm_ca: "{{ inv_add_docker_swarm_ssl_path }}/ca-chain.pem.crt"
+inv_add_docker_swarm_key: "{{ inv_add_docker_swarm_ssl_path }}/my-docker-swarm-cluster.domain.tld.pem.key"
+inv_add_docker_swarm_cert: "{{ inv_add_docker_swarm_ssl_path }}/my-docker-swarm-cluster.domain.tld.pem.crt"
+inv_add_docker_swarm_portainer_volume_name: "portainer_data"
+inv_add_docker_swarm_portainer_https_port: 9443
+inv_add_docker_swarm_portainer_http_port: 8000
+
 ```
 
 ```YAML
 # From AWX / Tower
 ---
-all vars from to put/from AWX / Tower
+
 ```
 
 ### Run
@@ -127,9 +154,25 @@ all vars from to put/from AWX / Tower
 To run this role, you can copy the molecule/default/converge.yml playbook and add it into your playbook:
 
 ```YAML
----
-your converge.yml file here
+- name: "Include labocbz.add_docker_swarm"
+  tags:
+    - "labocbz.add_docker_swarm"
+  vars:
+    add_docker_swarm_is_manager: "{{ inv_add_docker_swarm_is_manager }}"
+    add_docker_swarm_ssl: "{{ inv_add_docker_swarm_ssl }}"
+    add_docker_swarm_ssl_verify_cert: "{{ inv_add_docker_swarm_ssl_verify_cert }}"
+    add_docker_swarm_ssl_path: "{{ inv_add_docker_swarm_ssl_path }}"
+    add_docker_swarm_tls_name: "{{ inv_add_docker_swarm_tls_name }}"
+    add_docker_swarm_ca: "{{ inv_add_docker_swarm_ca }}"
+    add_docker_swarm_key: "{{ inv_add_docker_swarm_key }}"
+    add_docker_swarm_cert: "{{ inv_add_docker_swarm_cert }}"
+    add_docker_swarm_portainer_volume_name: "{{ inv_add_docker_swarm_portainer_volume_name }}"
+    add_docker_swarm_portainer_https_port: "{{ inv_add_docker_swarm_portainer_https_port }}"
+    add_docker_swarm_portainer_http_port: "{{ inv_add_docker_swarm_portainer_http_port }}"
+  ansible.builtin.include_role:
+    name: "labocbz.add_docker_swarm"
 ```
+
 
 ## Architectural Decisions Records
 
@@ -138,6 +181,18 @@ Here you can put your change to keep a trace of your work and decisions.
 ### 2023-12-24: First Init
 
 * First init of this role with the bootstrap_role playbook by Lord Robin Crombez
+
+### 2023-12-24-b: Docker Swarm pre install
+
+* Role deploy a Docker Swarm, but not tested in local (Docker in Docker in Docker ...)
+* Need test in Labo-CBZ
+* Role handle SSL / mTLS
+* Role handle custom name
+
+### 2023-12-29: Tests and fixes
+
+* Role doesn't handle Swarm name
+* Tested in develop and validation env
 
 ## Authors
 

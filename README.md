@@ -106,7 +106,6 @@ Some vars a required to run this role:
 ---
 add_docker_swarm_is_manager: false
 
-add_docker_swarm_swarmname: "SWARM"
 add_docker_swarm_ssl: false
 #add_docker_swarm_ssl_verify_cert: "no"
 #add_docker_swarm_tls_name: "{{ inventory_hostname }}"
@@ -131,7 +130,6 @@ In order to surchage vars, you have multiples possibilities but for mains cases 
 ---
 #inv_add_docker_swarm_is_manager: false
 
-inv_add_docker_swarm_swarmname: "MY-DOCKER-SWARM"
 inv_add_docker_swarm_ssl: true
 inv_add_docker_swarm_ssl_verify_cert: "no"
 inv_add_docker_swarm_ssl_path: "/etc/docker/swarm/ssl"
@@ -161,7 +159,6 @@ To run this role, you can copy the molecule/default/converge.yml playbook and ad
     - "labocbz.add_docker_swarm"
   vars:
     add_docker_swarm_is_manager: "{{ inv_add_docker_swarm_is_manager }}"
-    add_docker_swarm_swarmname: "{{ inv_add_docker_swarm_swarmname }}"
     add_docker_swarm_ssl: "{{ inv_add_docker_swarm_ssl }}"
     add_docker_swarm_ssl_verify_cert: "{{ inv_add_docker_swarm_ssl_verify_cert }}"
     add_docker_swarm_ssl_path: "{{ inv_add_docker_swarm_ssl_path }}"

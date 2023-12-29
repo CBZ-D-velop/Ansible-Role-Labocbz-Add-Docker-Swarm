@@ -7,18 +7,20 @@
 version: "3.2"
 
 services:
-  service_agent:
-    image: portainer/agent:latest
+  agent:
+    image: portainer/agent:2.19.4
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker/volumes:/var/lib/docker/volumes
     networks:
-      - network_portainer
+      - agent_network
     deploy:
       mode: global
+      placement:
+        constraints: [node.platform.os == linux]
 
-  service_portainer:
-    image: portainer/portainer-ce:latest
+  portainer:
+    image: portainer/portainer-ce:2.19.4
     command: -H tcp://tasks.agent:9001 --tlsskipverify
     ports:
       - "{{ add_docker_swarm_portainer_https_port }}:9443"
@@ -33,7 +35,7 @@ services:
       sslkey: "{{ add_docker_swarm_key }}"
 {% endif %}
     networks:
-      - network_portainer
+      - agent_network
     deploy:
       mode: replicated
       replicas: 1
@@ -41,7 +43,7 @@ services:
         constraints: [node.role == manager]
 
 networks:
-  network_portainer:
+  agent_network:
     driver: overlay
     attachable: true
 

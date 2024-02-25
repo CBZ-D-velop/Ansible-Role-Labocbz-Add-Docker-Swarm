@@ -23,16 +23,16 @@ services:
     image: portainer/portainer-ce:2.19.4
     command: -H tcp://tasks.agent:9001 --tlsskipverify
     ports:
-      - "{{ add_docker_swarm_portainer_https_port }}:9443"
-      - "{{ add_docker_swarm_portainer_http_port }}:9000"
+      - "{{ add_docker_swarm__portainer_https_port }}:9443"
+      - "{{ add_docker_swarm__portainer_http_port }}:9000"
       - "8000:8000"
     volumes:
-      - "{{ add_docker_swarm_portainer_volume_name }}:/data"
-{% if add_docker_swarm_ssl | default(false) %}
-      - "{{ add_docker_swarm_ssl_path }}:/certs"
+      - "{{ add_docker_swarm__portainer_volume_name }}:/data"
+{% if add_docker_swarm__ssl | default(false) %}
+      - "{{ add_docker_swarm__ssl_path }}:/certs"
     environment:
-      sslcert: "{{ add_docker_swarm_cert }}"
-      sslkey: "{{ add_docker_swarm_key }}"
+      sslcert: "{{ add_docker_swarm__cert }}"
+      sslkey: "{{ add_docker_swarm__key }}"
 {% endif %}
     networks:
       - agent_network
@@ -48,4 +48,4 @@ networks:
     attachable: true
 
 volumes:
-  {{ add_docker_swarm_portainer_volume_name }}:
+  {{ add_docker_swarm__portainer_volume_name }}:

@@ -1,8 +1,7 @@
 ---
-
 - name: "Install packages"
   register: output
-  changed_when: output.changed != true
+  changed_when: output.msg != "package(s) already installed"
   ansible.builtin.package:
     name:
       - "ca-certificates"
@@ -18,45 +17,45 @@
 - name: "Deploy Docker Swarm"
   block:
     - name: "Set first node manager"
-      when: add_docker_swarm_is_manager | default (false)
+      when: add_docker_swarm__is_manager | default (false)
       run_once: true
       block:
         - name: "Initialize Docker Swarm on manager: no SSL"
-          when: not (add_docker_swarm_ssl | default(false))
+          when: not (add_docker_swarm__ssl | default(false))
           community.docker.docker_swarm:
             state: present
             advertise_addr: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
 
         - name: "Initialize Docker Swarm on manager: SSL"
-          when: (add_docker_swarm_ssl | default(false)) and not (add_docker_swarm_ca | default(false))
+          when: (add_docker_swarm__ssl | default(false)) and not (add_docker_swarm__ca | default(false))
           community.docker.docker_swarm:
             state: present
             advertise_addr: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
-            validate_certs: "{{ add_docker_swarm_ssl_verify_cert | default(false) }}"
-            tls_hostname: "{{ add_docker_swarm_tls_name }}"
-            client_cert: "{{ add_docker_swarm_cert }}"
-            client_key: "{{ add_docker_swarm_key }}"
+            validate_certs: "{{ add_docker_swarm__ssl_verify_cert | default(false) }}"
+            tls_hostname: "{{ add_docker_swarm__tls_name }}"
+            client_cert: "{{ add_docker_swarm__cert }}"
+            client_key: "{{ add_docker_swarm__key }}"
 
         - name: "Initialize Docker Swarm on manager: mTLS"
-          when: (add_docker_swarm_ssl | default(false)) and (add_docker_swarm_ca | default(false))
+          when: (add_docker_swarm__ssl | default(false)) and (add_docker_swarm__ca | default(false))
           community.docker.docker_swarm:
             state: present
             advertise_addr: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
-            validate_certs: "{{ add_docker_swarm_ssl_verify_cert | default(false) }}"
-            tls_hostname: "{{ add_docker_swarm_tls_name }}"
-            client_cert: "{{ add_docker_swarm_cert }}"
-            client_key: "{{ add_docker_swarm_key }}"
-            ca_cert: "{{ add_docker_swarm_ca }}"
+            validate_certs: "{{ add_docker_swarm__ssl_verify_cert | default(false) }}"
+            tls_hostname: "{{ add_docker_swarm__tls_name }}"
+            client_cert: "{{ add_docker_swarm__cert }}"
+            client_key: "{{ add_docker_swarm__key }}"
+            ca_cert: "{{ add_docker_swarm__ca }}"
 
         - name: "Retrieve Worker join Token"
           register: manager_swarm_join_token_worker
-          changed_when: manager_swarm_join_token_worker.stdout_lines[0]
+          changed_when: false
           ansible.builtin.command: >
             docker swarm join-token worker -q
 
         - name: "Retrieve Manager join Token"
           register: manager_swarm_join_token_manager
-          changed_when: manager_swarm_join_token_manager.stdout_lines[0]
+          changed_when: false
           ansible.builtin.command: >
             docker swarm join-token manager -q
 
@@ -67,71 +66,71 @@
             swarm_node_manager: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
 
     - name: "Join main manager: managers"
-      when: (add_docker_swarm_is_manager | default (false)) and ( hostvars[inventory_hostname]['ansible_default_ipv4']['address'] != swarm_node_manager)
+      when: (add_docker_swarm__is_manager | default (false)) and ( hostvars[inventory_hostname]['ansible_default_ipv4']['address'] != swarm_node_manager)
       throttle: 1
       block:
         - name: "Join as Manager: no SSL"
-          when: not (add_docker_swarm_ssl | default(false))
+          when: not (add_docker_swarm__ssl | default(false))
           community.docker.docker_swarm:
             state: join
             remote_addrs: "{{ swarm_node_manager }}"
             join_token: "{{ swarm_join_token_manager }}"
 
         - name: "Join as Manager: SSL"
-          when: (add_docker_swarm_ssl | default(false)) and not (add_docker_swarm_ca | default(false))
+          when: (add_docker_swarm__ssl | default(false)) and not (add_docker_swarm__ca | default(false))
           community.docker.docker_swarm:
             state: join
             remote_addrs: "{{ swarm_node_manager }}"
-            validate_certs: "{{ add_docker_swarm_ssl_verify_cert | default(false) }}"
-            tls_hostname: "{{ add_docker_swarm_tls_name }}"
-            client_cert: "{{ add_docker_swarm_cert }}"
-            client_key: "{{ add_docker_swarm_key }}"
+            validate_certs: "{{ add_docker_swarm__ssl_verify_cert | default(false) }}"
+            tls_hostname: "{{ add_docker_swarm__tls_name }}"
+            client_cert: "{{ add_docker_swarm__cert }}"
+            client_key: "{{ add_docker_swarm__key }}"
             join_token: "{{ swarm_join_token_manager }}"
 
         - name: "Join as Manager: mTLS"
-          when: (add_docker_swarm_ssl | default(false)) and (add_docker_swarm_ca | default(false))
+          when: (add_docker_swarm__ssl | default(false)) and (add_docker_swarm__ca | default(false))
           community.docker.docker_swarm:
             state: join
             remote_addrs: "{{ swarm_node_manager }}"
-            validate_certs: "{{ add_docker_swarm_ssl_verify_cert | default(false) }}"
-            tls_hostname: "{{ add_docker_swarm_tls_name }}"
-            client_cert: "{{ add_docker_swarm_cert }}"
-            client_key: "{{ add_docker_swarm_key }}"
-            ca_cert: "{{ add_docker_swarm_ca }}"
+            validate_certs: "{{ add_docker_swarm__ssl_verify_cert | default(false) }}"
+            tls_hostname: "{{ add_docker_swarm__tls_name }}"
+            client_cert: "{{ add_docker_swarm__cert }}"
+            client_key: "{{ add_docker_swarm__key }}"
+            ca_cert: "{{ add_docker_swarm__ca }}"
             join_token: "{{ swarm_join_token_manager }}"
 
     - name: "Join main manager: workers"
-      when: (not (add_docker_swarm_is_manager | default (false))) and ( hostvars[inventory_hostname]['ansible_default_ipv4']['address'] != swarm_node_manager)
+      when: (not (add_docker_swarm__is_manager | default (false))) and ( hostvars[inventory_hostname]['ansible_default_ipv4']['address'] != swarm_node_manager)
       throttle: 1
       block:
         - name: "Join as Worker: no SSL"
-          when: not (add_docker_swarm_ssl | default(false))
+          when: not (add_docker_swarm__ssl | default(false))
           community.docker.docker_swarm:
             state: join
             remote_addrs: "{{ swarm_node_manager }}"
             join_token: "{{ swarm_join_token_worker }}"
 
         - name: "Join as Worker: SSL"
-          when: (add_docker_swarm_ssl | default(false)) and not (add_docker_swarm_ca | default(false))
+          when: (add_docker_swarm__ssl | default(false)) and not (add_docker_swarm__ca | default(false))
           community.docker.docker_swarm:
             state: join
             remote_addrs: "{{ swarm_node_manager }}"
-            validate_certs: "{{ add_docker_swarm_ssl_verify_cert | default(false) }}"
-            tls_hostname: "{{ add_docker_swarm_tls_name }}"
-            client_cert: "{{ add_docker_swarm_cert }}"
-            client_key: "{{ add_docker_swarm_key }}"
+            validate_certs: "{{ add_docker_swarm__ssl_verify_cert | default(false) }}"
+            tls_hostname: "{{ add_docker_swarm__tls_name }}"
+            client_cert: "{{ add_docker_swarm__cert }}"
+            client_key: "{{ add_docker_swarm__key }}"
             join_token: "{{ swarm_join_token_worker }}"
 
         - name: "Join as Worker: mTLS"
-          when: (add_docker_swarm_ssl | default(false)) and (add_docker_swarm_ca | default(false))
+          when: (add_docker_swarm__ssl | default(false)) and (add_docker_swarm__ca | default(false))
           community.docker.docker_swarm:
             state: join
             remote_addrs: "{{ swarm_node_manager }}"
-            validate_certs: "{{ add_docker_swarm_ssl_verify_cert | default(false) }}"
-            tls_hostname: "{{ add_docker_swarm_tls_name }}"
-            client_cert: "{{ add_docker_swarm_cert }}"
-            client_key: "{{ add_docker_swarm_key }}"
-            ca_cert: "{{ add_docker_swarm_ca }}"
+            validate_certs: "{{ add_docker_swarm__ssl_verify_cert | default(false) }}"
+            tls_hostname: "{{ add_docker_swarm__tls_name }}"
+            client_cert: "{{ add_docker_swarm__cert }}"
+            client_key: "{{ add_docker_swarm__key }}"
+            ca_cert: "{{ add_docker_swarm__ca }}"
             join_token: "{{ swarm_join_token_worker }}"
 
 - name: "Deploy Portainer Swarm stack"
@@ -158,6 +157,6 @@
       register: ouput
       changed_when: false
       run_once: true
-      when: (add_docker_swarm_ssl | default(false))
+      when: (add_docker_swarm__ssl | default(false))
       ansible.builtin.command: >
         docker stack deploy -c /etc/docker/swarm/portainer-stack.yml portainer

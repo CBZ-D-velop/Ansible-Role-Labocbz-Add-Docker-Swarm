@@ -1,6 +1,6 @@
 ---
 - name: "Converge"
-  hosts: "local"
+  hosts: "cicd-docker-dind"
   tasks:
 
     - name: "Include labocbz.add_docker_swarm"

@@ -104,18 +104,18 @@ Some vars a required to run this role:
 
 ```YAML
 ---
-add_docker_swarm_is_manager: false
+add_docker_swarm__is_manager: false
 
-add_docker_swarm_ssl: false
-#add_docker_swarm_ssl_verify_cert: "no"
-#add_docker_swarm_tls_name: "{{ inventory_hostname }}"
-#add_docker_swarm_ssl_path: "/path/to/your"
-#add_docker_swarm_ca: "{{ add_docker_swarm_ssl_path }}/ca.pem.crt"
-#add_docker_swarm_key: ""{{ add_docker_swarm_ssl_path }}/key.pem.crt"
-#add_docker_swarm_cert: "{{ add_docker_swarm_ssl_path }}/cert.pem.crt"
-add_docker_swarm_portainer_volume_name: "portainer_data"
-#add_docker_swarm_portainer_https_port: 9443
-add_docker_swarm_portainer_http_port: 9000
+add_docker_swarm__ssl: false
+#add_docker_swarm__ssl_verify_cert: "no"
+#add_docker_swarm__tls_name: "{{ inventory_hostname }}"
+#add_docker_swarm__ssl_path: "/path/to/your"
+#add_docker_swarm__ca: "{{ add_docker_swarm__ssl_path }}/ca.pem.crt"
+#add_docker_swarm__key: ""{{ add_docker_swarm__ssl_path }}/key.pem.crt"
+#add_docker_swarm__cert: "{{ add_docker_swarm__ssl_path }}/cert.pem.crt"
+add_docker_swarm__portainer_volume_name: "portainer_data"
+#add_docker_swarm__portainer_https_port: 9443
+add_docker_swarm__portainer_http_port: 9000
 
 ```
 
@@ -128,18 +128,18 @@ In order to surchage vars, you have multiples possibilities but for mains cases 
 ```YAML
 # From inventory
 ---
-#inv_add_docker_swarm_is_manager: false
+#inv_add_docker_swarm__is_manager: false
 
-inv_add_docker_swarm_ssl: true
-inv_add_docker_swarm_ssl_verify_cert: "no"
-inv_add_docker_swarm_ssl_path: "/etc/docker/swarm/ssl"
-inv_add_docker_swarm_tls_name: "{{ inventory_hostname }}"
-inv_add_docker_swarm_ca: "{{ inv_add_docker_swarm_ssl_path }}/ca-chain.pem.crt"
-inv_add_docker_swarm_key: "{{ inv_add_docker_swarm_ssl_path }}/my-docker-swarm-cluster.domain.tld.pem.key"
-inv_add_docker_swarm_cert: "{{ inv_add_docker_swarm_ssl_path }}/my-docker-swarm-cluster.domain.tld.pem.crt"
-inv_add_docker_swarm_portainer_volume_name: "portainer_data"
-inv_add_docker_swarm_portainer_https_port: 9443
-inv_add_docker_swarm_portainer_http_port: 8000
+inv_add_docker_swarm__ssl: true
+inv_add_docker_swarm__ssl_verify_cert: "no"
+inv_add_docker_swarm__ssl_path: "/etc/docker/swarm/ssl"
+inv_add_docker_swarm__tls_name: "{{ inventory_hostname }}"
+inv_add_docker_swarm__ca: "{{ inv_add_docker_swarm__ssl_path }}/ca-chain.pem.crt"
+inv_add_docker_swarm__key: "{{ inv_add_docker_swarm__ssl_path }}/my-docker-swarm-cluster.domain.tld.pem.key"
+inv_add_docker_swarm__cert: "{{ inv_add_docker_swarm__ssl_path }}/my-docker-swarm-cluster.domain.tld.pem.crt"
+inv_add_docker_swarm__portainer_volume_name: "portainer_data"
+inv_add_docker_swarm__portainer_https_port: 9443
+inv_add_docker_swarm__portainer_http_port: 8000
 
 ```
 
@@ -158,17 +158,17 @@ To run this role, you can copy the molecule/default/converge.yml playbook and ad
   tags:
     - "labocbz.add_docker_swarm"
   vars:
-    add_docker_swarm_is_manager: "{{ inv_add_docker_swarm_is_manager }}"
-    add_docker_swarm_ssl: "{{ inv_add_docker_swarm_ssl }}"
-    add_docker_swarm_ssl_verify_cert: "{{ inv_add_docker_swarm_ssl_verify_cert }}"
-    add_docker_swarm_ssl_path: "{{ inv_add_docker_swarm_ssl_path }}"
-    add_docker_swarm_tls_name: "{{ inv_add_docker_swarm_tls_name }}"
-    add_docker_swarm_ca: "{{ inv_add_docker_swarm_ca }}"
-    add_docker_swarm_key: "{{ inv_add_docker_swarm_key }}"
-    add_docker_swarm_cert: "{{ inv_add_docker_swarm_cert }}"
-    add_docker_swarm_portainer_volume_name: "{{ inv_add_docker_swarm_portainer_volume_name }}"
-    add_docker_swarm_portainer_https_port: "{{ inv_add_docker_swarm_portainer_https_port }}"
-    add_docker_swarm_portainer_http_port: "{{ inv_add_docker_swarm_portainer_http_port }}"
+    add_docker_swarm__is_manager: "{{ inv_add_docker_swarm__is_manager }}"
+    add_docker_swarm__ssl: "{{ inv_add_docker_swarm__ssl }}"
+    add_docker_swarm__ssl_verify_cert: "{{ inv_add_docker_swarm__ssl_verify_cert }}"
+    add_docker_swarm__ssl_path: "{{ inv_add_docker_swarm__ssl_path }}"
+    add_docker_swarm__tls_name: "{{ inv_add_docker_swarm__tls_name }}"
+    add_docker_swarm__ca: "{{ inv_add_docker_swarm__ca }}"
+    add_docker_swarm__key: "{{ inv_add_docker_swarm__key }}"
+    add_docker_swarm__cert: "{{ inv_add_docker_swarm__cert }}"
+    add_docker_swarm__portainer_volume_name: "{{ inv_add_docker_swarm__portainer_volume_name }}"
+    add_docker_swarm__portainer_https_port: "{{ inv_add_docker_swarm__portainer_https_port }}"
+    add_docker_swarm__portainer_http_port: "{{ inv_add_docker_swarm__portainer_http_port }}"
   ansible.builtin.include_role:
     name: "labocbz.add_docker_swarm"
 ```
@@ -193,6 +193,13 @@ Here you can put your change to keep a trace of your work and decisions.
 
 * Role doesn't handle Swarm name
 * Tested in develop and validation env
+
+### 2024-02-24: Fix and CI
+
+* Added support for new CI base
+* Edit all vars with __
+* Tested and validated on Docker DIND
+* Removed docker socket local and port
 
 ## Authors
 

@@ -1,7 +1,7 @@
 ---
 - name: "Install packages"
   register: output
-  changed_when: output.changed != true
+  changed_when: output.msg != "package(s) already installed"
   ansible.builtin.package:
     name:
       - "ca-certificates"
@@ -49,13 +49,13 @@
 
         - name: "Retrieve Worker join Token"
           register: manager_swarm_join_token_worker
-          changed_when: manager_swarm_join_token_worker.stdout_lines[0]
+          changed_when: false
           ansible.builtin.command: >
             docker swarm join-token worker -q
 
         - name: "Retrieve Manager join Token"
           register: manager_swarm_join_token_manager
-          changed_when: manager_swarm_join_token_manager.stdout_lines[0]
+          changed_when: false
           ansible.builtin.command: >
             docker swarm join-token manager -q
 

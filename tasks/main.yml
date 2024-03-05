@@ -12,7 +12,7 @@
 - name: "Move EXTERNALLY-MANAGED"
   changed_when: false
   ignore_errors: yes
-  ansible.builtin.cmd:
+  ansible.builtin.command:
     mv /usr/lib/python3.11/EXTERNALLY-MANAGED /usr/lib/python3.11/EXTERNALLY-MANAGED.old
 
 - name: "Install Docker PIP module"

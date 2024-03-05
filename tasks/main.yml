@@ -10,6 +10,7 @@
       - "lsb-release"
 
 - name: "Move EXTERNALLY-MANAGED"
+  register: output
   changed_when: false
   ignore_errors: yes
   ansible.builtin.command:

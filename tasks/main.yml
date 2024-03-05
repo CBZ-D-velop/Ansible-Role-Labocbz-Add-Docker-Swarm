@@ -9,6 +9,13 @@
       - "gnupg"
       - "lsb-release"
 
+- name: "Move EXTERNALLY-MANAGED"
+  register: output
+  changed_when: false
+  ignore_errors: yes
+  ansible.builtin.command:
+    mv /usr/lib/python3.11/EXTERNALLY-MANAGED /usr/lib/python3.11/EXTERNALLY-MANAGED.old
+
 - name: "Install Docker PIP module"
   ansible.builtin.pip:
     name:

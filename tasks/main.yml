@@ -1,7 +1,7 @@
 ---
 - name: "Install packages"
   register: output
-  changed_when: output.msg != "package(s) already installed"
+  changed_when: false
   ansible.builtin.package:
     name:
       - "ca-certificates"

@@ -152,6 +152,7 @@
         owner: "root"
         group: "root"
         mode: "0700"
+
     - name: "Import portainer.yml stack file"
       ansible.builtin.template:
         src: "templates/portainer-stack.yml.j2"

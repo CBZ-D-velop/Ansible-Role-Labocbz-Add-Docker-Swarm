@@ -173,7 +173,6 @@ To run this role, you can copy the molecule/default/converge.yml playbook and ad
     name: "labocbz.add_docker_swarm"
 ```
 
-
 ## Architectural Decisions Records
 
 Here you can put your change to keep a trace of your work and decisions.
@@ -200,6 +199,14 @@ Here you can put your change to keep a trace of your work and decisions.
 * Edit all vars with __
 * Tested and validated on Docker DIND
 * Removed docker socket local and port
+
+### 2024-05-19: New CI
+
+* Added Markdown lint to the CICD
+* Rework all Docker images
+* Change CICD vars convention
+* New workers
+* Removed all automation based on branch
 
 ## Authors
 

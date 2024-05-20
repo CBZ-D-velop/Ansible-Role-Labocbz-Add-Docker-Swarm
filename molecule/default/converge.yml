@@ -8,6 +8,7 @@
         - "labocbz.add_docker_swarm"
       vars:
         add_docker_swarm__is_manager: "{{ inv_add_docker_swarm__is_manager }}"
+        add_docker_swarm__history_limit: "{{ inv_add_docker_swarm__history_limit }}"
         add_docker_swarm__ssl: "{{ inv_add_docker_swarm__ssl }}"
         add_docker_swarm__ssl_verify_cert: "{{ inv_add_docker_swarm__ssl_verify_cert }}"
         add_docker_swarm__ssl_path: "{{ inv_add_docker_swarm__ssl_path }}"

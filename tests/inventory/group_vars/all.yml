@@ -2,6 +2,7 @@
 #inv_add_docker_swarm__is_manager: false
 
 inv_add_docker_swarm__swarmname: "MY-DOCKER-SWARM"
+inv_add_docker_swarm__history_limit: 1
 inv_add_docker_swarm__ssl: true
 inv_add_docker_swarm__ssl_verify_cert: "no"
 inv_add_docker_swarm__ssl_path: "/etc/docker/swarm/ssl"

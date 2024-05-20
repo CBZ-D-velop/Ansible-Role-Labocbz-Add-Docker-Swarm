@@ -1,6 +1,7 @@
 ---
 add_docker_swarm__is_manager: false
 
+add_docker_swarm__history_limit: 1
 add_docker_swarm__ssl: false
 #add_docker_swarm__ssl_verify_cert: "no"
 #add_docker_swarm__tls_name: "{{ inventory_hostname }}"

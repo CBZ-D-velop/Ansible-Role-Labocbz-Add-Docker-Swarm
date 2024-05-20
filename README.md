@@ -208,6 +208,7 @@ Here you can put your change to keep a trace of your work and decisions.
 * Change CICD vars convention
 * New workers
 * Removed all automation based on branch
+* Add history limit
 
 ## Authors
 

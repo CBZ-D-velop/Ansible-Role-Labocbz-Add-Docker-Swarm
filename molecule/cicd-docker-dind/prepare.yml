@@ -103,6 +103,7 @@
 
     - name: "Remove Python controlls"
       register: output
-      changed_when: output.rc != 0
+      changed_when: false
+      ignore_errors: true
       ansible.builtin.shell: |
         mv /usr/lib/python3.11/EXTERNALLY-MANAGED /usr/lib/python3.11/EXTERNALLY-MANAGED.old

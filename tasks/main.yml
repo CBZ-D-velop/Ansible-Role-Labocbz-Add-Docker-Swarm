@@ -2,6 +2,9 @@
 - name: "Install packages"
   register: output
   changed_when: false
+  retries: 3
+  delay: 10
+  until: output is success
   ansible.builtin.package:
     name:
       - "ca-certificates"

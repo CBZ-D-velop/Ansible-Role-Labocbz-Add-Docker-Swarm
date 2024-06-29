@@ -2,6 +2,9 @@
 - name: "Install packages"
   register: output
   changed_when: false
+  retries: 3
+  delay: 10
+  until: output is success
   ansible.builtin.package:
     name:
       - "ca-certificates"
@@ -12,7 +15,7 @@
 - name: "Move EXTERNALLY-MANAGED"
   register: output
   changed_when: false
-  ignore_errors: yes
+  ignore_errors: true
   ansible.builtin.command:
     mv /usr/lib/python3.11/EXTERNALLY-MANAGED /usr/lib/python3.11/EXTERNALLY-MANAGED.old
 
@@ -168,3 +171,12 @@
       when: (add_docker_swarm__ssl | default(false))
       ansible.builtin.command: >
         docker stack deploy -c /etc/docker/swarm/portainer-stack.yml portainer
+
+
+- name: "Set history limit on manager"
+  when: add_docker_swarm__is_manager | default (false)
+  register: output
+  changed_when: false
+  ignore_errors: true
+  ansible.builtin.command:
+    docker swarm update --task-history-limit={{ add_docker_swarm__history_limit }}
